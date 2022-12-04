@@ -7,7 +7,10 @@ contract Payroll {
         uint256 basic;
         uint256 tax;
         uint256 pension;
+        uint256 id; //invoice id
+        string country;
         uint256 others;
+        string misc;
     }
 
     mapping(bytes32 => mapping(bytes32 => DeductionDetails)) Details;
@@ -27,6 +30,29 @@ contract Payroll {
         activeSubscriptionAddress.push(_addr);
         AddressIndexInSubscription[_addr] = activeSubscriptionAddress.length;
         return true;
+    }
+
+    function payToSubscriber(
+        bytes32 _addr, 
+        bytes32 _data,
+        uint256 _basic,
+        uint256 _tax,
+        uint256 _pension,
+        uint256 _id,
+        string calldata _country,
+        uint256 _others,
+        string calldata _misc
+        ) external returns(bool) {
+        DeductionDetails storage details = Details[_data][_addr];
+        details.basic = _basic;
+        details.others = _others;
+        details.tax = _tax;
+        details.pension = _pension;
+        details.id =_id;
+        details.country =_country;
+        details.misc = _misc;
+        return true;
+
     }
 
     function updateSubscription(bytes32 _addr, bool _status) external returns(bool) {
@@ -62,13 +88,25 @@ contract Payroll {
         return true;
     }
 
-    function getUserPayrollInformation(bytes32 _addr,bytes32 _data) external view returns(uint256 Basic, uint256 Tax, uint256 Pension, uint256 Others) {
+    function getUserPayrollInformation(bytes32 _addr,
+        bytes32 _data) 
+        external view returns(
+            uint256 Basic, 
+            uint256 Tax, 
+            uint256 Pension, 
+            uint256 Others,
+            uint256 Id,
+            string memory Country,
+            string memory Misc) {
         DeductionDetails memory details = Details[_data][_addr];
         return(
             details.basic,
             details.tax,
             details.pension,
-            details.others
+            details.others,
+            details.id,
+            details.country,
+            details.misc
         );
     }
 
