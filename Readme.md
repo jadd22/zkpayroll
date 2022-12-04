@@ -4,7 +4,7 @@ zkPayroll is dApp built on top zkBob stable coin. It facilates DAO, Corportation
 
 ## Polygon Mumbai Deployed Contract Details
 
-https://mumbai.polygonscan.com/address/0x7899da421b09e91ef9d407f5a0ae349e694ab5c9
+https://mumbai.polygonscan.com/tx/0xf308295d807592395150ea55991a45437ba28d4fb4225b338154815a4caee317
 
 ## Features
 - Provides Subscription feature to enable recurring payments.
